@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"net/http"
 	"os"
 
@@ -14,15 +15,28 @@ func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 	crcToken := request.QueryStringParameters["crc_token"]
 	consumerSecret := os.Getenv("CONSUMER_SECRET")
 
-	resp, err := aaapi.MakeResponse(crcToken, consumerSecret)
-	if err != nil {
-		resp = &events.APIGatewayProxyResponse{
-			StatusCode: http.StatusInternalServerError,
-		}
-		return *resp, err
+	resp := events.APIGatewayProxyResponse{
+		StatusCode: http.StatusInternalServerError,
 	}
 
-	return *resp, nil
+	responseToken, err := aaapi.MakeResponseToken(crcToken, consumerSecret)
+	if err != nil {
+		return resp, err
+	}
+
+	b, err := json.Marshal(map[string]string{
+		"response_token": responseToken,
+	})
+	if err != nil {
+		return resp, err
+	}
+
+	resp = events.APIGatewayProxyResponse{
+		StatusCode: http.StatusOK,
+		Body:       string(b),
+	}
+
+	return resp, nil
 }
 
 func main() {
