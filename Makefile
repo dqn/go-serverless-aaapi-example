@@ -2,6 +2,7 @@
 
 build:
 	env GOOS=linux go build -ldflags="-s -w" -o bin/crc crc/main.go
+	env GOOS=linux go build -ldflags="-s -w" -o bin/event event/main.go
 
 clean:
 	rm -rf ./bin

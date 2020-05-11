@@ -26,9 +26,9 @@ functions:
             parameters:
               querystrings:
                 crc_token: true
-  # event:
-  #   handler: bin/event
-  #   events:
-  #     - http:
-  #         path: /
-  #         method: post
+  event:
+    handler: bin/event
+    events:
+      - http:
+          path: /
+          method: post

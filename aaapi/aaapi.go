@@ -27,7 +27,7 @@ func MakeResponse(crcToken, consumerSecret string) (*events.APIGatewayProxyRespo
 	}
 
 	b, err := json.Marshal(map[string]string{
-		"responseToken": responseToken,
+		"response_token": responseToken,
 	})
 	if err != nil {
 		return nil, err
