@@ -1,4 +1,4 @@
-module github.com/dqn/go-lambda-aaapi-example
+module github.com/dqn/go-serverless-aaapi-example
 
 go 1.14
 
